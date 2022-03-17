@@ -12,8 +12,6 @@ class StudentSorterByBirthDateTest {
         int expected, actual;
         Student o1 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
         Student o2 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
-        System.out.println(o1);
-        System.out.println(o2);
         StudentSorterByBirthDate s = new StudentSorterByBirthDate();
         if (o1.getBirthDate().compareTo(o2.getBirthDate()) > 0){
             expected = 1;

@@ -15,13 +15,14 @@ public class StudentRepository {
      * @return - the age of a student
      */
     public int getAgeInYears(String firstName, String lastName, String birthDate, String gender, Long cnp) {
-        //logger.info("Entered in getAgeInYear methode");
         int age = 0;
         Student student = new Student(firstName, lastName, birthDate,  gender, cnp);
         String dateOfBirth = student.getBirthDate();
+
         //creating a constructor of the Calendar class and passing DOB as a parameter
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         Calendar currentDate = new GregorianCalendar();
+
         try {
             Date date = dateFormat.parse(dateOfBirth);
             Calendar dob = new GregorianCalendar();
@@ -32,16 +33,18 @@ public class StudentRepository {
                     (dob.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH) && dob.get(Calendar.DAY_OF_MONTH) > currentDate.get(Calendar.DAY_OF_MONTH))) {
                 age--;
             }
-            //For negative age we throw a new define exception
+            //For negative age we throw a new custom exception
             if (age < 0 ){
                 throw new NegativeAgeException();
             }
 
         }catch (ParseException e){
-            System.err.println("Caught Parse Birth Date Exception: " + e.getMessage() + " for person with CNP: "+ cnp +". Date should have this format 'yyyy.mm.dd'");
+            //if scanner gets implemented, the serr and sout will be usable
+            //System.err.println("Caught Parse Birth Date Exception: " + e.getMessage() + " for person with CNP: "+ cnp +". Date should have this format 'yyyy.mm.dd'");
             logger.severe("Caught Parse Birth Date Exception: " + e.getMessage() + " for person with CNP: "+ cnp +". Date should have this format 'yyyy.mm.dd'");
         }catch (NegativeAgeException e){
-            System.err.println("The age for person with CNP: "+ cnp +" is: " + age);
+            //if scanner gets implemented, the serr and sout will be usable
+            //System.err.println("The age for person with CNP: "+ cnp +" is: " + age);
             logger.severe("The age for person with CNP: "+ cnp +" is: " + age);
         }
         return age;
@@ -54,22 +57,16 @@ public class StudentRepository {
     class NegativeAgeException extends Exception{
         NegativeAgeException(){
             getMessage();
-            //System.err.print("Caught Negative Age Exception! ");
-            //logger.severe("Caught Negative Age Exception! ");
         }
     }
     class NotStudentAgeException extends Exception{
         NotStudentAgeException(){
             getMessage();
-            //System.err.print("The age is bellow 18! This person can't be a student! ");
-            //logger.severe("The age is bellow 18! This person can't be a student! ");
         }
     }
     class DuplicateEntryException extends Exception{
         DuplicateEntryException(){
             getMessage();
-            //System.err.print("This student already exists! Not adding to students map! ");
-            //logger.severe("This student already exists! Not adding to students map! ");
         }
     }
 
@@ -77,6 +74,7 @@ public class StudentRepository {
     /**
      * Adding students to map of students.
      * Throws exception if student is already added to map of students
+     * or incorrect data provided.
      * @param firstName - students first name
      * @param lastName - students last name
      * @param birthDate - student's data of birth, allowed format 'yyyy.mm.dd'
@@ -95,18 +93,29 @@ public class StudentRepository {
                 students.put(cnp, student);
             }
         } catch (IllegalArgumentException e) {
-            System.out.println(" The Student with CNP: "+ cnp + " needs to have a name! " + e.getMessage());
+            //if scanner gets implemented, the serr and sout will be usable
+            //System.out.println(" The Student with CNP: "+ cnp + " needs to have a name! " + e.getMessage());
             logger.severe(" The Student with CNP: "+ cnp + " needs to have a name! ");
         } catch (NotStudentAgeException e){
-            System.err.println(" Student with CNP "+ cnp +" should have 18 or more years!");
+            //if scanner gets implemented, the serr and sout will be usable
+            //System.err.println(" Student with CNP "+ cnp +" should have 18 or more years!");
             logger.severe(" Student with CNP "+ cnp +" should have 18 or more years!");
         } catch(DuplicateEntryException e){
-            System.err.println(" Student with CNP: "+ cnp +" is duplicated!");
+            //if scanner gets implemented, the serr and sout will be usable
+            //System.err.println(" Student with CNP: "+ cnp +" is duplicated!");
             logger.severe(" Student with CNP: "+ cnp +" is duplicated!");
         }
     }
 
-
+    /**
+     * delete students from student map.
+     * method handle exceptions and deletes records based on
+     * @param firstName - student's first name
+     * @param lastName - student's last name
+     * @param birthDate - student's birth date
+     * @param gender - student's gender
+     * @param cnp - student's CNP(id)
+     */
     public void deleteStudent(String firstName, String lastName, String birthDate, String gender, Long cnp)  {
         Student student = new Student(firstName, lastName, birthDate,  gender, cnp);
         try {
@@ -120,11 +129,18 @@ public class StudentRepository {
                 throw new NullPointerException();
             }
         } catch(NullPointerException e){
-            System.err.println("Null values for CNP are not allowed! Please Fix! Nothing was removed!" + e.getMessage());
+            //System.err.println("Null values for CNP are not allowed! Please Fix! Nothing was removed!" + e.getMessage());
             logger.severe("Null values for CNP are not allowed or the student is not found! Please Fix! Nothing was removed!");
         }
     }
 
+    /**
+     * takes a paramenter age and build list of students with this age
+     * @param age - integer of age requested.
+     *
+     * for the sake of playing with Collections
+     * uses a HashSet
+     */
     public void displayStudentsByAge (int age) {
         Set<Student> studentsByAge = new HashSet<>();
         System.out.println("List with students that have: " + age + " years old, is: ");
@@ -134,10 +150,26 @@ public class StudentRepository {
                 studentsByAge.add(item);
             }
         }
-        System.out.println(studentsByAge);
-        logger.info("Listing the Students by Age order was successfull");
+        try{
+            if (studentsByAge.isEmpty()){
+                throw new NullPointerException();
+            } else{
+                System.out.println(studentsByAge);
+                logger.info("Listing the Students by Age order was successfull");
+            }
+        } catch(NullPointerException e){
+            //System.err.println("The list of students with age " + age + " is empty");
+            logger.severe("The list of students with age " + age + " is empty");
+        }
     }
 
+    /**
+     * builds the list of students sorted by last student's name
+     * uses comparator 'StudentSorter'.
+     *
+     * for the sake of playing with Collections
+     * uses a TreeSet
+     */
     public void sortStudentsByLastName() {
         Set<Student> nameSortedStudents = new TreeSet<>(new StudentSorter());
         for (Map.Entry<Long, Student> item : students.entrySet()){
@@ -149,6 +181,13 @@ public class StudentRepository {
         logger.info("Listing the Students ordered by last name was successfull");
     }
 
+    /**
+     * builds the list of students sorted by last student's name
+     * uses comparator 'StudentSorterByBirthDate'
+     *
+     * for the sake of playing with Collections
+     * uses a TreeSet
+     */
     public void sortStudentsByBirthDate() {
         Set<Student> nameSortedStudentsByDate = new TreeSet<>(new StudentSorterByBirthDate());
         for (Map.Entry<Long, Student> item : students.entrySet()){

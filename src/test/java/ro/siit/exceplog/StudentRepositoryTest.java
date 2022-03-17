@@ -15,21 +15,18 @@ import static ro.siit.exceplog.Randomization.*;
 class StudentRepositoryTest {
     int expected, actual;
     Student o1 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
-    Student o2 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
 
     @Test
     void getAgeInYears() throws ParseException {
-        System.out.println(o1);
-        System.out.println(o2);
         String dateOfBirth = o1.getBirthDate();
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         Calendar currentDate = new GregorianCalendar();
         Date date = dateFormat.parse(dateOfBirth);
         Calendar dob = new GregorianCalendar();
         dob.setTime(date);
-        int expected = currentDate.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        expected = currentDate.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
         StudentRepository s = new StudentRepository();
-        int actual = s.getAgeInYears(o1.getFirstName(), o1.getLastName(), o1.getBirthDate(), String.valueOf(o1.getGender()), o1.getCnp());
+        actual = s.getAgeInYears(o1.getFirstName(), o1.getLastName(), o1.getBirthDate(), String.valueOf(o1.getGender()), o1.getCnp());
         if (expected-1 == actual){
             assertEquals(expected-1, actual);
         } else{

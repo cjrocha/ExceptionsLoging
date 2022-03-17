@@ -51,7 +51,7 @@ public  class Student {
 
     /**
      * Getters for student object
-     * @return
+     * @return values for all object fields
      */
     public Long getCnp() {
         return cnp;
@@ -75,7 +75,7 @@ public  class Student {
 
     /**
      * Translates the object student into readable data
-     * @return
+     * @return the object fields in text format
      */
     @Override
     public String toString() {
@@ -84,7 +84,7 @@ public  class Student {
                 ", Last name= " + lastName +
                 ", Birth date= " + birthDate +
                 ", Gender= " + gender +
-                ", CNP= " + cnp + ", Age= " + n.getAgeInYears(firstName, lastName, birthDate, String.valueOf(gender), cnp) +
-                '.';
+                ", CNP= " + cnp + ", Age= " +
+                n.getAgeInYears(firstName, lastName, birthDate, String.valueOf(gender), cnp) +'.';
     }
 }

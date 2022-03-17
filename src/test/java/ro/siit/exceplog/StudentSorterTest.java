@@ -11,8 +11,6 @@ class StudentSorterTest {
         int expected, actual;
         Student o1 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
         Student o2 = new Student(randStrings(), randStrings(), randomDate(), randomGender(), randCNP());
-        System.out.println(o1);
-        System.out.println(o2);
         StudentSorter s = new StudentSorter();
         if (o1.getLastName().compareTo(o2.getLastName()) > 0){
             expected = 1;

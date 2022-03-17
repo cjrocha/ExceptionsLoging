@@ -2,6 +2,9 @@ package ro.siit.exceplog;
 
 import java.util.Random;
 
+/**
+ * Generating random values for all student fields
+ */
 public class Randomization {
     public static String randStrings(){
         Random random = new Random();

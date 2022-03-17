@@ -1,0 +1,10 @@
+Mar 17, 2022 11:24:13 AM ro.siit.exceplog.StudentRepository getAgeInYears
+SEVERE: The age for person with CNP: 159 is: -1
+Mar 17, 2022 11:24:13 AM ro.siit.exceplog.StudentRepository addStudent
+SEVERE:  Student with CNP 159 should have 18 or more years!
+Mar 17, 2022 11:24:13 AM ro.siit.exceplog.StudentRepository getAgeInYears
+SEVERE: Caught Parse Birth Date Exception: Unparseable date: "04/03.2005" for person with CNP: 1930303. Date should have this format 'yyyy.mm.dd'
+Mar 17, 2022 11:24:13 AM ro.siit.exceplog.StudentRepository addStudent
+SEVERE:  Student with CNP 1930303 should have 18 or more years!
+Mar 17, 2022 11:24:13 AM ro.siit.exceplog.StudentRepository addStudent
+SEVERE:  Student with CNP: 1950305 is duplicated!
